@@ -8,7 +8,7 @@ const AdminHeader = () =>{
             <nav className="main-header navbar navbar-expand navbar-white navbar-light">
                 <ul className="navbar-nav">
                     <li className="nav-item">
-                        <a className="nav-link" data-widget="pushmenu" href="#" role="button"><i className="fas fa-bars"></i></a>
+                        <span className="nav-link" data-widget="pushmenu" role="button"><i className="fas fa-bars"></i></span>
                     </li>
                     <li className="nav-item d-none d-sm-inline-block">
                         <a href="/" target="_blank" title="Website" className="nav-link">
@@ -24,17 +24,17 @@ const AdminHeader = () =>{
             
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item">
-                        <a className="nav-link" data-widget="fullscreen" href="#" role="button">
+                        <span className="nav-link" data-widget="fullscreen" role="button">
                             <i className="fas fa-expand-arrows-alt"></i>
-                        </a>
+                        </span>
                     </li>
                     <li className="nav-item dropdown">
-                        <a className="nav-link" data-toggle="dropdown" href="#">
+                        <span className="nav-link" data-toggle="dropdown" >
                             <span className="image">
-                                <img src="../assets/images/default-user.png" alt=""
+                                <img src="/assets/images/default-user.png" alt=""
                                     className="img-circle elevation-2" width="30" />
                             </span>
-                        </a>
+                        </span>
                         <div className="dropdown-menu dropdown-menu-md dropdown-menu-right">
                             <a href="/admin/profile" className="dropdown-item">Profile & account</a>
                             <div className="dropdown-divider"></div>

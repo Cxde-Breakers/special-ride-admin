@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Tooltip } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import { Modal } from "antd";
+
 
 const AdminModal = ({ data, mode, claxx, icon, title, buttonText }) => {
   const [open, setOpen] = useState(false);
@@ -36,13 +36,13 @@ const AdminModal = ({ data, mode, claxx, icon, title, buttonText }) => {
     setOpen(false);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormState((prevState) => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormState((prevState) => ({
+  //     ...prevState,
+  //     [name]: value
+  //   }));
+  // };
 
   return (
     <>
@@ -78,7 +78,7 @@ const AdminModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                 <img
                   className="img-circle elevation-2"
                   src="/assets/images/default-user.png"
-                  alt="Customer Image"
+                  alt="Customer"
                 />
               </div>
               <div className="card-footer">
