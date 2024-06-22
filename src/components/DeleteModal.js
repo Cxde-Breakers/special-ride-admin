@@ -1,8 +1,8 @@
 
 import React, { useState } from "react";
 import { Modal, Button } from "antd";
-import openNotification from "./OpenNotification";
-import axios from "axios";
+// import openNotification from "./OpenNotification";
+// import axios from "axios";
 
 const DeleteModal = ({ title, content, claxx, noicon }) => {
   const [open, setOpen] = useState(false);

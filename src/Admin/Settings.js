@@ -56,7 +56,7 @@ const Settings = () =>{
                                                     <div className="card-body">
                                                         <div className="row">
                                                             <div className="col-lg-6 col-xl-4">
-                                                                <img src="../assets/logo.png" height="50px" />
+                                                                <img src="../assets/logo.png" height="50px" alt="default" />
                                                                 <div className="mb-3">
                                                                     <label className="form-label">Site Logo<span
                                                                             className="text-danger">
@@ -69,7 +69,7 @@ const Settings = () =>{
                                                             </div>
                                                             <div className="col-lg-6 col-xl-4">
                                                                 <img src="../assets/logo.png"
-                                                                    height="50px" />
+                                                                    height="50px" alt="default" />
     
                                                                 <div className="mb-3">
                                                                     <div className="form-label">Admin Logo<span className="text-danger">Recommended size : 180x60</span>
@@ -82,7 +82,7 @@ const Settings = () =>{
                                                             <div className="col-lg-6 col-xl-4">
     
                                                                 <img src="../assets/logo.png"
-                                                                    height="50px" />
+                                                                    height="50px" alt="default" />
     
                                                                 <div className="mb-3">
                                                                     <label className="form-label">SEO image<span
@@ -97,7 +97,7 @@ const Settings = () =>{
     
                                                             <div className="col-lg-6 col-xl-4">
                                                                     <img src="../assets/images/favicon.png"
-                                                                        height="50px" />
+                                                                        height="50px" alt="default" />
                                                                 
                                                                 <div className="mb-3">
                                                                     <label className="form-label">Favicon<span

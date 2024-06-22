@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Tooltip } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import { Modal } from "antd";
+// import { QuestionCircleOutlined } from "@ant-design/icons";
 
 const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
   const [open, setOpen] = useState(false);
@@ -36,13 +36,13 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
     setOpen(false);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormState((prevState) => ({
+  //     ...prevState,
+  //     [name]: value,
+  //   }));
+  // };
 
   return (
     <>
@@ -62,7 +62,7 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
         {mode === "credit" ? (<>
 
           <div className="text-center">
-    <img src="/assets/images/default-user.png" className="border rounded-circle" alt="Image" width="80" height="80" />
+    <img src="/assets/images/default-user.png" className="border rounded-circle" alt="asset" width="80" height="80" />
     <h3>Abel Mawuko</h3>
     <button type="button" className="btn btn-info">Available Balance
         : 5001 INR </button>
@@ -126,7 +126,7 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                 <img
                   className="img-circle elevation-2"
                   src="/assets/images/default-user.png"
-                  alt="Customer Image"
+                  alt="Customer"
                 />
               </div>
               <div className="card-footer">
@@ -239,7 +239,7 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                     className="img-fluid elevation-2"
                                     width="150"
                                     src="/assets/uploads/nid.jpg"
-                                    alt="Customer Image"
+                                    alt="Customer"
                                   />
                                 </a>
                               </td>
@@ -253,7 +253,7 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                     className="img-fluid elevation-2"
                                     width="150"
                                     src="/assets/uploads/nid.jpg"
-                                    alt="Customer Image"
+                                    alt="Customer"
                                   />
                                 </a>
                               </td>
@@ -267,7 +267,7 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                     className="img-fluid elevation-2"
                                     width="150"
                                     src="/assets/uploads/nid.jpg"
-                                    alt="Customer Image"
+                                    alt="Customer"
                                   />
                                 </a>
                               </td>
@@ -281,7 +281,7 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                     className="img-fluid elevation-2"
                                     width="150"
                                     src="/assets/uploads/nid.jpg"
-                                    alt="Customer Image"
+                                    alt="Customer"
                                   />
                                 </a>
                               </td>
@@ -295,7 +295,7 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                     className="img-fluid elevation-2"
                                     width="150"
                                     src="/assets/uploads/nid.jpg"
-                                    alt="Customer Image"
+                                    alt="Customer"
                                   />
                                 </a>
                               </td>
@@ -309,7 +309,7 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                     className="img-fluid elevation-2"
                                     width="150"
                                     src="/assets/uploads/nid.jpg"
-                                    alt="Customer Image"
+                                    alt="Customer"
                                   />
                                 </a>
                               </td>
@@ -323,7 +323,7 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                     className="img-fluid elevation-2"
                                     width="150"
                                     src="/assets/uploads/nid.jpg"
-                                    alt="Customer Image"
+                                    alt="Customer"
                                   />
                                 </a>
                               </td>
@@ -521,7 +521,7 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                           >
                             <img
                               src="/assets/images/default.jpg"
-                              alt="Photo"
+                              alt="default"
                               className="img-fluid"
                               height="150px"
                               width="120px"
@@ -542,14 +542,13 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                 type="file"
                               />
                             </label>
-                            <a
-                              href="#"
+                            <span
                               className="btn fileupload-exists btn-default btn-rounded  btn-sm"
                               data-dismiss="fileupload"
                               id="remove-thumbnail"
                             >
                               <i className="fa fa-times"></i> Remove
-                            </a>
+                            </span>
                           </span>
                         </div>
                       </div>
@@ -566,7 +565,7 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                           >
                             <img
                               src="/assets/images/default.jpg"
-                              alt="Photo"
+                              alt="default"
                               className="img-fluid"
                               height="150px"
                               width="120px"
@@ -587,14 +586,13 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                 type="file"
                               />
                             </label>
-                            <a
-                              href="#"
+                            <span
                               className="btn fileupload-exists btn-default btn-rounded  btn-sm"
                               data-dismiss="fileupload"
                               id="remove-thumbnail"
                             >
                               <i className="fa fa-times"></i> Remove
-                            </a>
+                            </span>
                           </span>
                         </div>
                       </div>
@@ -613,7 +611,7 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                           >
                             <img
                               src="/assets/images/default.jpg"
-                              alt="Photo"
+                              alt="default"
                               className="img-fluid"
                               height="150px"
                               width="120px"
@@ -634,14 +632,13 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                 type="file"
                               />
                             </label>
-                            <a
-                              href="#"
+                            <span
                               className="btn fileupload-exists btn-default btn-rounded  btn-sm"
                               data-dismiss="fileupload"
                               id="remove-thumbnail"
                             >
                               <i className="fa fa-times"></i> Remove
-                            </a>
+                            </span>
                           </span>
                         </div>
                       </div>
@@ -731,7 +728,7 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                           >
                             <img
                               src="/assets/images/default.jpg"
-                              alt="Photo"
+                              alt="default"
                               className="img-fluid"
                               height="150px"
                               width="120px"
@@ -752,14 +749,13 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                 type="file"
                               />
                             </label>
-                            <a
-                              href="#"
+                            <span
                               className="btn fileupload-exists btn-default btn-rounded  btn-sm"
                               data-dismiss="fileupload"
                               id="remove-thumbnail"
                             >
                               <i className="fa fa-times"></i> Remove
-                            </a>
+                            </span>
                           </span>
                         </div>
                       </div>
@@ -777,7 +773,7 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                           >
                             <img
                               src="/assets/images/default.jpg"
-                              alt="Photo"
+                              alt="default"
                               className="img-fluid"
                               height="150px"
                               width="120px"
@@ -798,14 +794,13 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                 type="file"
                               />
                             </label>
-                            <a
-                              href="#"
+                            <span
                               className="btn fileupload-exists btn-default btn-rounded  btn-sm"
                               data-dismiss="fileupload"
                               id="remove-thumbnail"
                             >
                               <i className="fa fa-times"></i> Remove
-                            </a>
+                            </span>
                           </span>
                         </div>
                       </div>
@@ -823,7 +818,7 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                           >
                             <img
                               src="/assets/images/default.jpg"
-                              alt="Photo"
+                              alt="default"
                               className="img-fluid"
                               height="150px"
                               width="120px"
@@ -844,14 +839,13 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                 type="file"
                               />
                             </label>
-                            <a
-                              href="#"
+                            <span
                               className="btn fileupload-exists btn-default btn-rounded  btn-sm"
                               data-dismiss="fileupload"
                               id="remove-thumbnail"
                             >
                               <i className="fa fa-times"></i> Remove
-                            </a>
+                            </span>
                           </span>
                         </div>
                       </div>
@@ -867,7 +861,7 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                           >
                             <img
                               src="/assets/images/default.jpg"
-                              alt="Photo"
+                              alt="default"
                               className="img-fluid"
                               height="150px"
                               width="120px"
@@ -888,14 +882,13 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                 type="file"
                               />
                             </label>
-                            <a
-                              href="#"
+                            <span
                               className="btn fileupload-exists btn-default btn-rounded  btn-sm"
                               data-dismiss="fileupload"
                               id="remove-thumbnail"
                             >
                               <i className="fa fa-times"></i> Remove
-                            </a>
+                            </span>
                           </span>
                         </div>
                       </div>
@@ -911,7 +904,7 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                           >
                             <img
                               src="/assets/images/default.jpg"
-                              alt="Photo"
+                              alt="default"
                               className="img-fluid"
                               height="150px"
                               width="120px"
@@ -932,14 +925,13 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                 type="file"
                               />
                             </label>
-                            <a
-                              href="#"
+                            <span
                               className="btn fileupload-exists btn-default btn-rounded  btn-sm"
                               data-dismiss="fileupload"
                               id="remove-thumbnail"
                             >
                               <i className="fa fa-times"></i> Remove
-                            </a>
+                            </span>
                           </span>
                         </div>
                       </div>

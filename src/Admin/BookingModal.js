@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Tooltip } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import { Modal } from "antd";
+// import { QuestionCircleOutlined } from "@ant-design/icons";
 
 const BookingModal = ({ data, mode, claxx, icon, title, buttonText }) => {
   const [open, setOpen] = useState(false);

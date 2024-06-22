@@ -76,7 +76,7 @@ const ViewPassengers = () => {
                                       
                                         <tr>
                                           <td><div className="float-left p-2">
-                                            <img src="/assets/images/default-user.png" className="border rounded-circle" alt="Image" width="50" height="50" />
+                                            <img src="/assets/images/default-user.png" className="border rounded-circle" alt="default" width="50" height="50" />
                                         </div>
                                     </td>
                                             

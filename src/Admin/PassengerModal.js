@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Tooltip } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import { Modal } from "antd";
+// import { QuestionCircleOutlined } from "@ant-design/icons";
 
 const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
   const [open, setOpen] = useState(false);
@@ -36,13 +36,13 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
     setOpen(false);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormState((prevState) => ({
+  //     ...prevState,
+  //     [name]: value,
+  //   }));
+  // };
 
   return (
     <>
@@ -78,7 +78,7 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                 <img
                   className="img-circle elevation-2"
                   src="/assets/images/default-user.png"
-                  alt="Customer Image"
+                  alt="Customer"
                 />
               </div>
               <div className="card-footer">
@@ -191,7 +191,7 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                     className="img-fluid elevation-2"
                                     width="150"
                                     src="/assets/uploads/nid.jpg"
-                                    alt="Customer Image"
+                                    alt="Customer"
                                   />
                                 </a>
                               </td>
@@ -205,7 +205,7 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                     className="img-fluid elevation-2"
                                     width="150"
                                     src="/assets/uploads/nid.jpg"
-                                    alt="Customer Image"
+                                    alt="Customer "
                                   />
                                 </a>
                               </td>
@@ -402,7 +402,7 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                           >
                             <img
                               src="/assets/images/default.jpg"
-                              alt="Photo"
+                              alt="default"
                               className="img-fluid"
                               height="150px"
                               width="120px"
@@ -423,14 +423,13 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                 type="file"
                               />
                             </label>
-                            <a
-                              href="#"
+                            <span
                               className="btn fileupload-exists btn-default btn-rounded  btn-sm"
                               data-dismiss="fileupload"
                               id="remove-thumbnail"
                             >
                               <i className="fa fa-times"></i> Remove
-                            </a>
+                            </span>
                           </span>
                         </div>
                       </div>
@@ -447,7 +446,7 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                           >
                             <img
                               src="/assets/images/default.jpg"
-                              alt="Photo"
+                              alt="default"
                               className="img-fluid"
                               height="150px"
                               width="120px"
@@ -468,14 +467,13 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                 type="file"
                               />
                             </label>
-                            <a
-                              href="#"
+                            <span
                               className="btn fileupload-exists btn-default btn-rounded  btn-sm"
                               data-dismiss="fileupload"
                               id="remove-thumbnail"
                             >
                               <i className="fa fa-times"></i> Remove
-                            </a>
+                            </span>
                           </span>
                         </div>
                       </div>
@@ -494,7 +492,7 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                           >
                             <img
                               src="/assets/images/default.jpg"
-                              alt="Photo"
+                              alt="default"
                               className="img-fluid"
                               height="150px"
                               width="120px"
@@ -515,14 +513,13 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                 type="file"
                               />
                             </label>
-                            <a
-                              href="#"
+                            <span
                               className="btn fileupload-exists btn-default btn-rounded  btn-sm"
                               data-dismiss="fileupload"
                               id="remove-thumbnail"
                             >
                               <i className="fa fa-times"></i> Remove
-                            </a>
+                            </span>
                           </span>
                         </div>
                       </div>

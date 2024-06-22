@@ -104,13 +104,13 @@ go away. */}
             </li>
 
             <li className="nav-item">
-              <a href="#" className="nav-link">
+              <span className="nav-link text-white">
                 <i className="nav-icon fas fa-location-dot"></i>
                 <p>
                   Locations
                   <i className="right fas fa-angle-left"></i>
                 </p>
-              </a>
+              </span>
               <ul className="nav nav-treeview">
                 <li className="nav-item">
                   <a href="/admin/coutries" className={`nav-link ${
@@ -124,12 +124,12 @@ go away. */}
             </li>
 
             <li className="nav-item ">
-              <a href="#" className="nav-link">
+              <span className="nav-link text-white">
                 <i className="nav-icon nav-icon fa fa-user"></i>
                 <p>
                   Role & Permissions<i className="fas fa-angle-left right"></i>
                 </p>
-              </a>
+              </span>
 
               <ul className="nav nav-treeview">
                 <li className="nav-item">
@@ -160,12 +160,12 @@ go away. */}
               </li>
 
               <li className="nav-item ">
-              <a href="#" className="nav-link">
+              <span className="nav-link text-white">
                 <i className="nav-icon nav-icon fas fa-gears"></i>
-                <p>
+                <p >
                   Settings<i className="fas fa-angle-left right"></i>
                 </p>
-              </a>
+              </span>
 
               <ul className="nav nav-treeview">
                 <li className="nav-item">

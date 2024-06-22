@@ -82,7 +82,7 @@ const ViewCountries = () => {
                           <tr>
                             <td>1</td>
                             <td>
-                              <a href="">Ghana</a>
+                              <a href="/">Ghana</a>
                             </td>
                             <td>GH</td>
                             <td>

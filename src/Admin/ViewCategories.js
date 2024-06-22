@@ -89,7 +89,7 @@ const ViewCategories = () => {
                               <img
                                 src="/assets/images/default-user.png"
                                 className="border rounded-circle"
-                                alt="Image"
+                                alt="default"
                                 width="50"
                               />
                             </td>

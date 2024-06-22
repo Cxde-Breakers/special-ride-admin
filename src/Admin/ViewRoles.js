@@ -27,7 +27,7 @@ const ViewRoles = () => {
                     <div className="col-sm-6">
                         <ol className="breadcrumb float-sm-right">
                             <li className="breadcrumb-item"><a
-                                    href="">Dashboard</a>
+                                    href="/">Dashboard</a>
                             </li>
                             <li className="breadcrumb-item active">Admin roles</li>
                         </ol>
