@@ -19,7 +19,7 @@ const AdminSidebar = ({ active }) => {
             <li className="nav-item">
               <a className={`nav-link ${
                     active === "dashboard" ? "active" : ""
-                  }`} href={"/admin"}>
+                  }`} href={"/admin/dashboard"}>
                 <i className="nav-icon fa fa-house-user"></i>
                 Dashboard
               </a>

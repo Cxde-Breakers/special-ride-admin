@@ -27,7 +27,7 @@ const App = () => {
       <Routes>
 
         <Route path={`/`} element={<Login />} />
-        <Route path={`/admin`} element={<Dashboard />} />
+        <Route path={`/admin/dashboard`} element={<Dashboard />} />
         <Route path={`/admin/settings`} element={<Settings />} />
 
         {/* FAQs */}
@@ -38,7 +38,10 @@ const App = () => {
         <Route path={`/admin/bookings`} element={<ViewBookings />} />
         <Route path={`/admin/transactions`} element={<ViewTransactions />} />
         <Route path={`/admin/categories`} element={<ViewCategories />} />
+
         <Route path={`/admin/subcategories`} element={<ViewSubcategories />} />
+        <Route path={`/admin/subcategories/:categoryId`} element={<ViewSubcategories />} />
+
         <Route path={`/admin/drivers`} element={<ViewDrivers />} />
         <Route path={`/admin/passengers`} element={<ViewPassengers />} />
         <Route path={`/admin/roles`} element={<ViewRoles />} />

@@ -4,7 +4,7 @@ import { Modal, Button } from "antd";
 import openNotification from "./OpenNotification";
 import axios from "axios";
 
-const DeleteModal = ({ title, content, claxx, noicon, setIsLoading, id, redirectUrl, deleteUrl }) => {
+const StatusModal = ({ title, content, claxx, noicon, setIsLoading, id, redirectUrl, updateUrl, status }) => {
   const [open, setOpen] = useState(false);
 
   const showModal = () => {
@@ -19,15 +19,19 @@ const DeleteModal = ({ title, content, claxx, noicon, setIsLoading, id, redirect
       'Content-Type': 'application/json',
     };
 
+    const body = {
+      status: status === 'active' ? 'inactive' : 'active'
+    }
+
   setIsLoading(true);
 
-    axios.delete(`${process.env.REACT_APP_API_URL}/${deleteUrl}/${id}`, { headers })
+    axios.patch(`${process.env.REACT_APP_API_URL}/${updateUrl}/${id}`, body, { headers })
     .then((response) => {
         openNotification(
           "topRight",
           "success",
-          "Item deleted successfully",
-          "Item has been deleted successfully."
+          "Details updated successfully",
+          "Details has been updated successfully."
         );
 
         setTimeout(() => {
@@ -39,7 +43,7 @@ const DeleteModal = ({ title, content, claxx, noicon, setIsLoading, id, redirect
         "topRight",
         "error",
         "Error",
-        "An error occurred while creating the faq."
+        'An error occurred while updating details.'
       );
       console.error(error);
       setIsLoading(false);
@@ -47,7 +51,7 @@ const DeleteModal = ({ title, content, claxx, noicon, setIsLoading, id, redirect
     .finally(() => {
       setOpen(false);
     });
-  };
+    };
 
   const handleCancel = () => {
     setOpen(false);
@@ -66,8 +70,8 @@ const DeleteModal = ({ title, content, claxx, noicon, setIsLoading, id, redirect
   return (
     <>
       <span title={title} onClick={showModal} className={claxx}>
-        {!noicon && (<i className={"nav-icon fa fa-trash mr-2"}></i>)}
-        <span>Delete</span>
+        {!noicon && (<i className={`nav-icon fa fa-${status === 'active' ? "eye-slash" : "eye"} mr-2`}></i>)}
+        <span>{status === 'active' ? 'Disable' : 'Enable'}</span>
       </span>
 
       <Modal
@@ -93,4 +97,4 @@ const DeleteModal = ({ title, content, claxx, noicon, setIsLoading, id, redirect
   );
 };
 
-export default DeleteModal;
+export default StatusModal;
