@@ -5,9 +5,10 @@ import AdminSidebar from "./components/AdminSidebar";
 import AdminHeader from "./components/AdminHeader";
 import AdminFooter from "./components/AdminFooter";
 import PassengerModal from "./PassengerModal";
-import DeleteModal from "../components/DeleteModal";
+// import DeleteModal from "../components/DeleteModal";
 import axios from "axios";
 import { Spin } from "antd";
+import StatusModal from "../components/StatusModal";
 
 const ViewPassengers = () => {
 
@@ -43,11 +44,11 @@ const ViewPassengers = () => {
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         setPassengers(sortedData);
-        //   setIsLoading(false);
+          // setIsLoading(false);
       })
       .catch((error) => {
         console.error(error);
-        //   setIsLoading(false);
+          // setIsLoading(false);
       });
 
     axios
@@ -61,6 +62,8 @@ const ViewPassengers = () => {
         console.error(error);
         setIsLoading(false);
       });
+
+      setIsLoading(false);
   }, [navigate]);
 
   const handleSearchChange = (e) => {
@@ -199,8 +202,9 @@ const ViewPassengers = () => {
                                 <th>Email</th>
                                 {/* <th>Veh</th> */}
                                 <th>Registration date</th>
-                                <th>Total Ride</th>
+                                {/* <th>Total Ride</th> */}
                                 <th>Country</th>
+                                <th>Status</th>
                                 <th>Action</th>
                               </tr>
                             </thead>
@@ -235,8 +239,19 @@ const ViewPassengers = () => {
                                     {/* <td>N/A</td> */}
 
                                     <td>08 Aug, 2023</td>
-                                    <td>{passenger?.bookings.length}</td>
                                     <td>{passenger?.country.name}</td>
+                                    <td className="text-muted">
+                                            {passenger.status === 'active' ? (
+                                                <span className="badge badge-success">
+                                                    Active
+                                                </span>
+                                                ) : (
+                                                <span className="badge badge-secondary">
+                                                    Inactive
+                                                </span>
+                                                )}
+                                            </td>
+                                    
 
                                     <td>
                                       <PassengerModal
@@ -257,12 +272,22 @@ const ViewPassengers = () => {
                                         countries={countries}
                                         setIsLoading={setIsLoading}
                                       />
-                                      <DeleteModal
+                                      {/* <DeleteModal
                                         title={"Delete Passenger"}
                                         content={
                                           "Are you sure you want to delete this item? This action cannot be undone."
                                         }
                                         claxx={"btn btn-sm btn-danger mr-3"}
+                                      /> */}
+
+<StatusModal
+                                        title={passenger?.status === 'active' ? "Disable Passenger" :"Enable Passenger"}
+                                        content={
+                                          `Are you sure you want to ${passenger?.status === 'active' ? 'disable' : 'enable'} this passenger?`
+                                        }
+                                        claxx={`btn btn-sm btn-${passenger?.status === 'active' ? 'secondary' : 'success'} mr-3`}
+                                        setIsLoading={setIsLoading} id={passenger.id} redirectUrl={'passengers'} updateUrl={'passengers'}
+                                        status={passenger?.status}
                                       />
                                     </td>
                                   </tr>

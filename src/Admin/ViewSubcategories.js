@@ -15,7 +15,7 @@ const ViewSubcategories = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [subcategories, setSubcategories] = useState([]);
-   
+
     const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(20);
@@ -194,7 +194,7 @@ const ViewSubcategories = () => {
                                   <tr key={index}>
                                     <td>{index + 1}</td>
                                     <td>{subcategory.name}</td>
-                                    <td>{subcategory?.category.name}</td>
+                                    <td>{subcategory?.category?.name}</td>
                                     <td>{subcategory.order}</td>
                                     <td>
                                     {subcategory.status === 'active' ? (
@@ -219,7 +219,7 @@ const ViewSubcategories = () => {
                                           `Are you sure you want to ${subcategory?.status === 'active' ? 'disable' : 'enable'} this item?`
                                         }
                                         claxx={`btn btn-sm btn-${subcategory?.status === 'active' ? 'secondary' : 'success'} mr-3`}
-                                        setIsLoading={setIsLoading} id={subcategory.id} redirectUrl={'categories'} updateUrl={'categories'}
+                                        setIsLoading={setIsLoading} id={subcategory.id} redirectUrl={'subcategories'} updateUrl={'subcategories'}
                                         status={subcategory?.status}
                                       />
                                      
@@ -227,21 +227,7 @@ const ViewSubcategories = () => {
                                   </tr>
                                 ))
                               )}
-                                            {/* <tr>
-                                                <td>1</td>
-                                                <td>Car</td>
-                                                <td>Ride</td>
-                                                <td>1</td>
-                                                <td>
-                                                    <span className="badge bg-success">
-                                                        Active
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                <SubcategoryModal title={"Edit"} claxx={"btn btn-sm btn-warning mr-3"} icon={"nav-icon fa fa-edit mr-2"} mode={"edit"} data={data} buttonText={"Edit"} />
-                                                <DeleteModal title={"Delete Subcategory"} content={"Are you sure you want to delete this item? This action cannot be undone."} claxx={"btn btn-sm btn-danger mr-3"} />
-                                                </td>
-                                            </tr> */}
+                              
                                     
                                     </tbody>
                                 </table>

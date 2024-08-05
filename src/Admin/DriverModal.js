@@ -94,7 +94,7 @@ const DriverModal = ({ data, mode, claxx, icon, title, buttonText, categories, s
     const token = window.sessionStorage.getItem("token");
     const headers = {
       Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
+      'Content-Type': 'multipart/form-data',
     };
 
     

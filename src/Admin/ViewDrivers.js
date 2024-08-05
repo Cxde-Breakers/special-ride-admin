@@ -5,9 +5,10 @@ import AdminSidebar from "./components/AdminSidebar";
 import AdminHeader from "./components/AdminHeader";
 import AdminFooter from "./components/AdminFooter";
 import DriverModal from "./DriverModal";
-import DeleteModal from "../components/DeleteModal";
+// import DeleteModal from "../components/DeleteModal";
 import axios from "axios";
 import { Spin } from "antd";
+import StatusModal from "../components/StatusModal";
 
 
 const ViewDrivers = () => {
@@ -210,8 +211,8 @@ const ViewDrivers = () => {
                                         <th>Email</th>
                                         <th>Veh</th>
                                         <th>Registration date</th>
-                                        <th>Total Ride</th>
                                         <th>Country</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -260,8 +261,19 @@ const ViewDrivers = () => {
                                             <td>
                                               {formatDate(driver.createdAt)}
                                             </td>
-                                            <td>0</td>
                                             <td>{driver?.country?.name}</td>
+
+                                            <td className="text-muted">
+                                            {driver.status === 'active' ? (
+                                                <span className="badge badge-success">
+                                                    Active
+                                                </span>
+                                                ) : (
+                                                <span className="badge badge-secondary">
+                                                    Inactive
+                                                </span>
+                                                )}
+                                            </td>
 
                                             <td>
 
@@ -274,7 +286,16 @@ const ViewDrivers = () => {
 
                                                 <DriverModal title={"View"} claxx={"btn btn-sm btn-info mr-3"} icon={"nav-icon fa fa-eye mr-2"} mode={"view"} data={driver} buttonText={"View"} />
                                                 <DriverModal title={"Edit"} claxx={"btn btn-sm btn-warning mr-3"} icon={"nav-icon fa fa-edit mr-2"} mode={"edit"} data={driver} buttonText={"Edit"} categories={categories} countries={countries} setIsLoading={setIsLoading}/>
-                                                <DeleteModal title={"Delete Driver"} content={"Are you sure you want to delete this item? This action cannot be undone."} claxx={"btn btn-sm btn-danger mr-3"}/>
+                                                {/* <DeleteModal title={"Delete Driver"} content={"Are you sure you want to delete this item? This action cannot be undone."} claxx={"btn btn-sm btn-danger mr-3"}/> */}
+                                                <StatusModal
+                                        title={driver?.status === 'active' ? "Disable Driver" :"Enable Driver"}
+                                        content={
+                                          `Are you sure you want to ${driver?.status === 'active' ? 'disable' : 'enable'} this driver?`
+                                        }
+                                        claxx={`btn btn-sm btn-${driver?.status === 'active' ? 'secondary' : 'success'} mr-3`}
+                                        setIsLoading={setIsLoading} id={driver.id} redirectUrl={'drivers'} updateUrl={'drivers'}
+                                        status={driver?.status}
+                                      />
                                             </td>
                                         </tr>
                                         ))

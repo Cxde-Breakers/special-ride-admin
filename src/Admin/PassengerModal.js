@@ -25,11 +25,12 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoadi
 
   useEffect(() => {
     if (data) {
-      const { profilePicture, idFront, idBack, user, bookings, country, ...rest } = data;
+
+      const { profilePicture, idFront, idBack, user, bookings, country, id, ...rest } = data;
       setFormState((prevState) => ({
         ...prevState,
         ...rest,
-        country: country.id
+        country: country?.id
       }));
     }
   }, [data]);
@@ -68,12 +69,16 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoadi
     const token = window.sessionStorage.getItem("token");
     const headers = {
       Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
+      'Content-Type': 'multipart/form-data',
     };
 
-    
 
     setIsLoading(true);
+
+    const body = new FormData();
+    for (const key in formState) {
+    body.append(key, formState[key]);
+    }
 
 
     if(mode === 'create'){
@@ -89,7 +94,7 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoadi
         return;
       }
 
-      axios.post(`${process.env.REACT_APP_API_URL}/auth/sign-up`, formState, { headers })
+      axios.post(`${process.env.REACT_APP_API_URL}/auth/sign-up`, body, { headers })
         .then((response) => {
             openNotification(
               "topRight",
@@ -118,9 +123,10 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoadi
     } 
     
     else {
-      console.log(formState)
+      
+      console.log(body)
 
-      axios.patch(`${process.env.REACT_APP_API_URL}/passengers/${data?.id}`, formState, { headers })
+      axios.patch(`${process.env.REACT_APP_API_URL}/passengers/${data?.id}`, body, { headers })
       .then((response) => {
           openNotification(
             "topRight",
@@ -194,10 +200,10 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoadi
                       <h5 className="description-header">Status</h5>
                       <span className="description-text">
                         <span
-                          className="badge bg-success"
+                          className={`badge bg-${data.status === 'active' ? 'success' : 'secondary'}`}
                           style={{ minWidth: "65px" }}
                         >
-                          Active
+                          {data.status === 'active' ? 'Active' : 'Inactive'}
                         </span>
                       </span>
                     </div>
