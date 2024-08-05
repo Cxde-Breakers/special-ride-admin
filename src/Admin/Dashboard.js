@@ -1,14 +1,48 @@
-import React, { useEffect} from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import './Admin.css'
 import AdminSidebar from "./components/AdminSidebar";
 import AdminHeader from "./components/AdminHeader";
 import AdminFooter from "./components/AdminFooter";
+import axios from "axios";
+import { Spin } from "antd";
+
 
 const Dashboard = () =>{
 
-    useEffect(() => {
-        document.title = "Dashboard | Special Ride";
-    },[])
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [totals, setTotals] = useState({});
+
+  useEffect(() => {
+    document.title = "Dashboard | Special Ride";
+
+    setIsLoading(true);
+    const token = window.sessionStorage.getItem("token");
+
+    if (!token) {
+      navigate("/");
+      return;
+    }
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/totals`, { headers })
+      .then((response) => {
+        // console.log(response.data.data);
+        // const sortedCategories = response.data.data
+        setTotals(response.data.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setIsLoading(false);
+      });
+  }, [navigate]);
 
     return(
         <div className="hold-transition sidebar-mini">
@@ -17,7 +51,10 @@ const Dashboard = () =>{
             <AdminHeader />
 
             <AdminSidebar active={"dashboard"} />
-
+{isLoading ? (
+          <Spin fullscreen={true} size={"large"} />
+        ) : (
+          <>
             <div className="content-wrapper">
                 <div className="content-header">
                     <div className="container-fluid">
@@ -42,22 +79,11 @@ const Dashboard = () =>{
                                 <div className="info-box link_color">
                                     <div className="info-box-content">
                                         <span className="info-box-text">Total Earnings</span>
-                                        <span className="info-box-number">00</span>
+                                        <span className="info-box-number">{totals.earnings ? totals.earnings : '0'}</span>
                                     </div>
                                     
                                 </div>
                                 </a>
-                            </div>
-            
-                            <div className="col-12 col-sm-6 col-md-3">
-                            <a href="/" className="stretched-link">
-                                <div className="info-box link_color">
-                                    <div className="info-box-content">
-                                        <span className="info-box-text">Total Rides</span>
-                                        <span className="info-box-number">10</span>
-                                    </div>
-                                </div>
-                                </a> 
                             </div>
             
             
@@ -67,7 +93,7 @@ const Dashboard = () =>{
                                 <div className="info-box link_color">
                                     <div className="info-box-content">
                                         <span className="info-box-text">Total Bookings</span>
-                                        <span className="info-box-number">10</span>
+                                        <span className="info-box-number">{totals.bookings ? totals.bookings : '0'}</span>
                                     </div>
                                 </div>
                                 </a> 
@@ -78,7 +104,7 @@ const Dashboard = () =>{
                                 <div className="info-box link_color">
                                     <div className="info-box-content">
                                         <span className="info-box-text">Total Countries</span>
-                                        <span className="info-box-number">50</span>
+                                        <span className="info-box-number">{totals.countries ? totals.countries : '0'}</span>
                                     </div>
                                     {/* <a href="#" className="stretched-link">.</a> */}
                                 </div>
@@ -90,8 +116,8 @@ const Dashboard = () =>{
                             <a href="/" className="stretched-link">
                                 <div className="info-box link_color">
                                     <div className="info-box-content">
-                                        <span className="info-box-text">Total User</span>
-                                        <span className="info-box-number">10</span>
+                                        <span className="info-box-text">Total Users</span>
+                                        <span className="info-box-number">{totals.users ? totals.users : '0'}</span>
                                     </div>
                                     
                                 </div>
@@ -107,7 +133,8 @@ const Dashboard = () =>{
             </div>
 
             <AdminFooter />
-
+</>
+        )}
             </div>
         </div>
     );

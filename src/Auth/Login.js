@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom'
 import './Auth.css'
+import { Spin } from 'antd';
+import axios from "axios";
+import openNotification from "../components/OpenNotification";
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -13,26 +17,55 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(email, password);
-        navigate('/admin');
+
+        window.sessionStorage.clear();
+        
+        if(email.length === 0 || password.length === 0) {
+            openNotification("topRight", "error", "Login Error", "All fields are required");
+            return;
+        }
+
+        setIsLoading(true);
+
+     const body = { email, password };
+
+
+      axios
+        .post(`${process.env.REACT_APP_API_URL}/auth/sign-in`, body, { headers: {
+          'Content-Type': 'application/json'
+        },})
+        .then((response) => {
+        //   if (response.data.success) {
+
+            window.sessionStorage.setItem("token", response.data.accessToken);
+            window.sessionStorage.setItem("refreshToken", response.data.refreshToken);
+
+            openNotification("topRight", "success", "Success", "Login Successful");
+            setEmail("");
+            setPassword("");
+            setIsLoading(false);
+
+            setTimeout(() => {
+              navigate(`/admin/dashboard`);
+            }, 1000);
+        //   }
+        })
+        .catch((error) => {
+          openNotification("topRight", "error", "Login Error", "Invalid email address or password");
+          setEmail("");
+          setPassword("");
+
+          console.log("error :>> ", error);
+          setIsLoading(false);
+        });
 
     }
 
-    // (node:83694) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
-    // (Use `node --trace-deprecation ...` to show where the warning was created)
-    // (node:83694) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
-
-
-    //     babel-preset-react-app is part of the create-react-app project, which
-    // is not maintianed anymore. It is thus unlikely that this bug will
-    // ever be fixed. Add "@babel/plugin-proposal-private-property-in-object" to
-    // your devDependencies to work around this error. This will make this message
-    // go away.
-  
 
     return(
 
-        <div className="signin_sec">
+        isLoading ? (<Spin fullscreen={true} size={'large'} />) : (
+            <div className="signin_sec">
             <div className="container">
                 <div className="row d-flex justify-content-center">
                     <div className="col-md-6 col-lg-5 col-xl-5">
@@ -45,16 +78,19 @@ const Login = () => {
                                 </div>
                                 <div className="mb-3">
                                     <label for="email" className="form-label">Admin Email</label>
-                                    <input type="email" name="email" id="email" className="form-control" onChange={((e) => {setEmail(e.target.value)})} placeholder="Enter your email" required />
+                                    <input type="email" name="email" id="email" className="form-control" autoComplete="off" onChange={((e) => {setEmail(e.target.value)})} placeholder="Enter your email" required />
                                    
                                 </div>
                                 <div className="mb-3">
                                     <label for="password" className="form-label">Admin Password</label>
-                                    <input type="password"name="password" id="password" className="form-control" onChange={((e) => {setPassword(e.target.value)})} placeholder="Enter your password" required />
+                                    <input type="password"name="password" id="password" className="form-control" autoComplete="off" onChange={((e) => {setPassword(e.target.value)})} placeholder="Enter your password" required />
                                 </div>
                                 <div className="create_account text-center">
                                     <button type="button" onClick={handleSubmit} className="btn btn-primary w-100">Sign In</button>
                                 </div>
+                                {/* <Button className="btn btn-primary w-100" loading iconPosition={'end'} onClick={handleSubmit} >
+                                    Sign In
+                                </Button> */}
                             </div>
                           
                         </form>
@@ -64,7 +100,9 @@ const Login = () => {
                 </div>
             </div>
             
-        </div>
+            </div>
+        )
+        
 
     );
 }

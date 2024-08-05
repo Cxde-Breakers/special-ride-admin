@@ -1,7 +1,62 @@
-import React from "react";
+import React, { useEffect } from "react";
 import '../Admin.css'
+import axios from "axios"
+import { useNavigate } from "react-router-dom";
+  
+const AdminHeader = () => {
+    // const intervalRef = useRef(null);
+    const navigate = useNavigate();
 
-const AdminHeader = () =>{
+    const tokenRefresh = async () => {
+        try {
+          const refreshToken = window.sessionStorage.getItem('refreshToken');
+          const body = {
+            refreshToken
+          }
+          const headers = {
+            'Content-Type': 'application/json',
+          };
+    
+          const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/refresh-tokens`, body, { headers });
+          window.sessionStorage.setItem("token", response.data.accessToken);
+        window.sessionStorage.setItem("refreshToken", response.data.refreshToken);
+
+          console.log('Token refreshed:', response.data.accessToken);
+        } catch (error) {
+          console.error('Error refreshing token:', error);
+          // Handle error (e.g., redirect to login)
+        //   setIsLoggedIn(false);
+        }
+      };
+
+
+      useEffect(() => {
+        // Check if the interval is already set
+        if (!window.tokenRefreshInterval) {
+          window.tokenRefreshInterval = setInterval(() => {
+            tokenRefresh();
+          }, 30 * 1000); // 50 minutes in milliseconds
+        }
+    
+        // Clear the interval on component unmount (logout)
+        return () => {
+          if (window.tokenRefreshInterval) {
+            clearInterval(window.tokenRefreshInterval);
+            window.tokenRefreshInterval = null;
+          }
+        };
+      }, []);
+    
+      const handleLogout = () => {
+        // Clear all items from sessionStorage
+        window.sessionStorage.clear();
+        window.localStorage.clear();
+        if (window.tokenRefreshInterval) {
+          clearInterval(window.tokenRefreshInterval);
+          window.tokenRefreshInterval = null;
+        }
+        navigate('/');
+      };
 
     return(
 
@@ -38,9 +93,9 @@ const AdminHeader = () =>{
                         <div className="dropdown-menu dropdown-menu-md dropdown-menu-right">
                             <a href="/admin/profile" className="dropdown-item">Profile & account</a>
                             <div className="dropdown-divider"></div>
-                            <a href="/" className="dropdown-item text-danger"
-                                onClick="">Logout
-                                </a>
+                            <span href="/" style={{ cursor: "pointer" }} onClick={handleLogout} className="dropdown-item text-danger"
+                                >Logout
+                                </span>
                             
                         </div>
                     </li>

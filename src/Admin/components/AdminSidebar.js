@@ -19,7 +19,7 @@ const AdminSidebar = ({ active }) => {
             <li className="nav-item">
               <a className={`nav-link ${
                     active === "dashboard" ? "active" : ""
-                  }`} href={"/admin"}>
+                  }`} href={"/admin/dashboard"}>
                 <i className="nav-icon fa fa-house-user"></i>
                 Dashboard
               </a>
@@ -85,14 +85,14 @@ go away. */}
               </a>
             </li>
 
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <a href="/admin/tickets" className={`nav-link ${
                     active === "ticket" ? "active" : ""
                   }`}>
                 <i className="nav-icon fa fa-comments"></i>
                 Support Tickets
               </a>
-            </li>
+            </li> */}
 
             <li className="nav-item">
               <a href="/admin/faqs" className={`nav-link ${

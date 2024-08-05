@@ -1,26 +1,41 @@
 import React, { useState, useEffect } from "react";
 import { Modal } from "antd";
-// import { QuestionCircleOutlined } from "@ant-design/icons";
+import FileUpload from "./components/FileUpload";
+import axios from "axios";
+import openNotification from "../components/OpenNotification";
 
-const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
+
+const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoading, countries }) => {
   const [open, setOpen] = useState(false);
   const [formState, setFormState] = useState({
-    question: "",
-    answer: "",
-    status: "",
-    order: "",
+    role: 'passenger',
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    phoneNumber: '',
+    age: '',
+    gender: '',
+    address: '',
+    country: '',
+    profilePicture: '',
+    idFront: '',
+    idBack: ''
   });
 
   useEffect(() => {
     if (data) {
-      setFormState({
-        question: data.question,
-        answer: data.answer,
-        status: data.status,
-        order: data.order,
-      });
+
+      const { profilePicture, idFront, idBack, user, bookings, country, id, ...rest } = data;
+      setFormState((prevState) => ({
+        ...prevState,
+        ...rest,
+        country: country?.id
+      }));
     }
   }, [data]);
+
+
 
   const showModal = () => {
     setOpen(true);
@@ -36,13 +51,110 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
     setOpen(false);
   };
 
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormState((prevState) => ({
-  //     ...prevState,
-  //     [name]: value,
-  //   }));
-  // };
+  const handleInputChange = (e) => {
+    const { name, value, type, files } = e.target;
+    const newValue =
+    type === "file"
+      ? files[0]
+      : value;
+
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: name === 'age' ? Number(newValue) : newValue
+    }));
+  };
+
+
+  const handleSubmit = () => {
+    const token = window.sessionStorage.getItem("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
+    };
+
+
+    setIsLoading(true);
+
+    const body = new FormData();
+    for (const key in formState) {
+    body.append(key, formState[key]);
+    }
+
+
+    if(mode === 'create'){
+
+      if (Object.values(formState).some(value => !value)) {
+        
+        openNotification(
+          "topRight",
+          "error",
+          "Error",
+          "All fields are required."
+        );
+        return;
+      }
+
+      axios.post(`${process.env.REACT_APP_API_URL}/auth/sign-up`, body, { headers })
+        .then((response) => {
+            openNotification(
+              "topRight",
+              "success",
+              "Passenger created successfully",
+              "Passenger has been created successfully."
+            );
+    
+            setTimeout(() => {
+              window.location.href = `/admin/passengers`;
+            }, 1000);
+        })
+        .catch((error) => {
+          openNotification(
+            "topRight",
+            "error",
+            "Error",
+            'An error occurred while creating the passenger.'
+          );
+          console.error(error);
+          setIsLoading(false);
+        })
+        .finally(() => {
+          setOpen(false);
+        });
+    } 
+    
+    else {
+      
+      console.log(body)
+
+      axios.patch(`${process.env.REACT_APP_API_URL}/passengers/${data?.id}`, body, { headers })
+      .then((response) => {
+          openNotification(
+            "topRight",
+            "success",
+            "Passenger updated successfully",
+            "Passenger details has been updated successfully."
+          );
+  
+          setTimeout(() => {
+            window.location.href = `/admin/passengers`;
+          }, 1000);
+      })
+      .catch((error) => {
+        openNotification(
+          "topRight",
+          "error",
+          "Error",
+          'An error occurred while updating the passenger.'
+        );
+        console.error(error);
+        setIsLoading(false);
+      })
+      .finally(() => {
+        setOpen(false);
+      });
+    }
+  }
+
 
   return (
     <>
@@ -71,13 +183,13 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
           <>
             <div className="card card-widget widget-user shadow">
               <div className="widget-user-header bg-secondary">
-                <h3 className="widget-user-username">Abel Mawuko</h3>
-                <h5 className="widget-user-desc">test@gmail.com</h5>
+                <h3 className="widget-user-username">{data?.firstName} {data?.lastName}</h3>
+                <h5 className="widget-user-desc">{data?.email}</h5>
               </div>
               <div className="widget-user-image">
                 <img
                   className="img-circle elevation-2"
-                  src="/assets/images/default-user.png"
+                  src={`data:image/png;base64,${data?.profilePicture}`} 
                   alt="Customer"
                 />
               </div>
@@ -88,10 +200,10 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                       <h5 className="description-header">Status</h5>
                       <span className="description-text">
                         <span
-                          className="badge bg-success"
+                          className={`badge bg-${data.status === 'active' ? 'success' : 'secondary'}`}
                           style={{ minWidth: "65px" }}
                         >
-                          Active
+                          {data.status === 'active' ? 'Active' : 'Inactive'}
                         </span>
                       </span>
                     </div>
@@ -127,61 +239,36 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
 
                             <tr>
                               <td>Total ride</td>
-                              <td>0</td>
+                              <td>{data?.bookings?.length}</td>
                             </tr>
 
                             <tr>
                               <td>Address</td>
-                              <td>PatahinTirhut DivisionIndia</td>
+                              <td>{data?.address}</td>
                             </tr>
-                            <tr>
-                              <td>Location</td>
-                              <td>PatahinTirhut DivisionIndia</td>
-                            </tr>
+                           
                             <tr>
                               <td>Country</td>
-                              <td>India</td>
+                              <td>{data?.country?.name}</td>
                             </tr>
 
-                            <tr>
-                              <td>Latitude/longitude</td>
-                              <td>26.12118 85.3481729</td>
-                            </tr>
 
                             <tr>
                               <td>Phone</td>
-                              <td>7991195087</td>
+                              <td>{data?.phoneNumber}</td>
                             </tr>
 
                             <tr>
                               <td>Age</td>
-                              <td>20 Years</td>
+                              <td>{data?.age} years</td>
                             </tr>
 
                             <tr>
                               <td>Gender</td>
-                              <td>Male</td>
+                              <td>{data?.gender === 'male' ? 'Male' : 'Female'}</td>
                             </tr>
 
-                            <tr>
-                              <td>Vehicle</td>
-                              <td>Ride, Car/Taxi</td>
-                            </tr>
 
-                            <tr>
-                              <td>Color</td>
-                              <td>Red</td>
-                            </tr>
-
-                            <tr>
-                              <td>Vehicle registration number</td>
-                              <td>1234567890</td>
-                            </tr>
-
-                            <tr>
-                              <td>Vehicle Plate number</td>
-                              <td>1234567890</td>
-                            </tr>
 
                             <tr>
                               <td>Nid Front</td>
@@ -190,7 +277,7 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                   <img
                                     className="img-fluid elevation-2"
                                     width="150"
-                                    src="/assets/uploads/nid.jpg"
+                                    src={`data:image/png;base64,${data?.idFront}`}
                                     alt="Customer"
                                   />
                                 </a>
@@ -204,8 +291,8 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                                   <img
                                     className="img-fluid elevation-2"
                                     width="150"
-                                    src="/assets/uploads/nid.jpg"
-                                    alt="Customer "
+                                    src={`data:image/png;base64,${data?.idBack}`}
+                                    alt="Customer"
                                   />
                                 </a>
                               </td>
@@ -267,49 +354,56 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
               <form enctype="multipart/form-data">
                 <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                   
-                  <div className="row">
-                    <div className="col-md-4">
+                <div className="row">
+                    <div className={mode === 'create' ? "col-md-4" : "col-md-6"}>
                       <label className="form-label required" for="name">
                         First Name <span className="text-danger">*</span>{" "}
                       </label>
                       <input
                         className="form-control"
-                        name="name"
                         type="text"
                         placeholder="Enter First Name"
-                        autocomplete="off"
+                        name="firstName"
+                        onChange={handleInputChange}
+                        value={formState.firstName}
                         required
                       />
                     </div>
-                    <div className="col-md-4">
+                    <div className={mode === 'create' ? "col-md-4" : "col-md-6"}>
                       <label className="form-label required" for="last_name">
                         Last Name <span className="text-danger">*</span>
                       </label>
                       <input
                         className="form-control "
-                        name="last_name"
+                        name="lastName"
+                        onChange={handleInputChange}
                         type="text"
                         placeholder="Enter Last Name"
-                        autocomplete="off"
+                        value={formState.lastName}
                         required
                       />
                     </div>
-                    <div className="col-md-4">
+                    {mode === 'create' && (
+                      <div className="col-md-4">
                       <label className="form-label required" for="password">
                         Email Address<span className="text-danger">*</span>
                       </label>
                       <input
                         className="form-control"
                         name="email"
+                        onChange={handleInputChange}
                         type="email"
                         placeholder="Enter Email"
-                        autocomplete="off"
+                        
                         required
                       />
                     </div>
+                    )}
+                    
                   </div>
                   <div className="row">
-                    <div className="col-md-4">
+                    {mode === 'create' && (
+                      <div className="col-md-4">
                       <div className="mt-4 mb-4">
                         <label className="form-label required">
                           Password <span className="text-danger">*</span>
@@ -317,6 +411,7 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                         <input
                           className="form-control"
                           name="password"
+                          onChange={handleInputChange}
                           type="password"
                           placeholder="Enter new password"
                           autocomplete="new-password"
@@ -324,42 +419,51 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                         />
                       </div>
                     </div>
-                    <div className="col-md-4">
+                    )}
+                    
+                    <div className={mode === 'create' ? "col-md-4" : "col-md-6"}>
                       <div className="mt-4 mb-4">
                         <label className="form-label required">
                           Phone Number<span className="text-danger">*</span>
                         </label>
                         <input
                           className="form-control"
-                          name="phone"
+                          name="phoneNumber"
+                          onChange={handleInputChange}
                           type="text"
                           placeholder="Enter phone number"
-                          autocomplete="off"
+                          value={formState.phoneNumber}
                           required
                         />
                       </div>
                     </div>
-                    <div className="col-md-4">
+                    <div className={mode === 'create' ? "col-md-4" : "col-md-6"}>
                       <div className="mt-4 mb-4">
                         <label className="form-label required">Age</label>
                         <input
                           className="form-control"
                           name="age"
+                          onChange={handleInputChange}
                           type="number"
                           placeholder="Enter age"
-                          autocomplete="off"
+                          value={formState.age}
                         />
                       </div>
                     </div>
                   </div>
+
                   <div className="row">
                     <div className="col-md-4">
                       <div className="mt-4 mb-4">
                         <label className="form-label">Gender</label>
-                        <select name="gender" id="" className="form-control">
-                          <option value="Male">Male</option>
-                          <option value="Female">Female</option>
-                          <option value="Others">Others</option>
+                        <select className="form-control" 
+                        name="gender"
+                        onChange={handleInputChange}>
+                          <option value="">Select Gender</option>
+
+                          <option value="male" selected={formState.gender === 'male'}>Male</option>
+                          <option value="female" selected={formState.gender === 'female'}>Female</option>
+                          {/* <option value="others">Others</option> */}
                         </select>
                       </div>
                     </div>
@@ -369,8 +473,10 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                         <input
                           className="form-control "
                           name="address"
+                          onChange={handleInputChange}
                           type="text"
                           placeholder="Enter address"
+                          value={formState.address}
                         />
                       </div>
                     </div>
@@ -380,150 +486,34 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                           Country<span className="text-danger">*</span>
                         </label>
                         <select
-                          name="country_id"
-                          id=""
+                          name="country"
+                          onChange={handleInputChange}
                           className="select2 form-control"
                           required
                         >
-                          <option value="1">Ghana</option>
-                          <option value="2">Nigeria</option>
+                          <option value="">Select Country</option>
+
+                          {countries?.map((country, index) => {
+                        return (
+                          <option 
+                            key={index} 
+                            value={country.id} 
+                            selected={country.id === formState?.country }
+                            // selected={category.id === formState?.category?.name}
+                          >
+                            {country.name}
+                          </option>
+                        );
+                      })}
                         </select>
                       </div>
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-12 col-sm-12 col-md-3 col-lg-4 col-xl-4">
-                      <div className="mb-4">
-                        <label className="form-label">Profile Photo</label>
-                        <div className="fileupload " data-provides="fileupload">
-                          <span
-                            className="fileupload-preview fileupload-exists thumbnail"
-                            style={{ maxWidth: "150px", maxHeight: "120px" }}
-                          >
-                            <img
-                              src="/assets/images/default.jpg"
-                              alt="default"
-                              className="img-fluid"
-                              height="150px"
-                              width="120px"
-                            />
-                          </span>
-                          <span>
-                            <label className="btn btn-info btn-rounded btn-file btn-sm">
-                              <span className="fileupload-new">
-                                <i className="fa fa-file-image-o"></i> Select
-                                Image
-                              </span>
-                              <span className="fileupload-exists">
-                                <i className="fa fa-reply"></i> Change
-                              </span>
-                              <input
-                                className="form-control"
-                                name="image"
-                                type="file"
-                              />
-                            </label>
-                            <span
-                              className="btn fileupload-exists btn-default btn-rounded  btn-sm"
-                              data-dismiss="fileupload"
-                              id="remove-thumbnail"
-                            >
-                              <i className="fa fa-times"></i> Remove
-                            </span>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-12 col-sm-12 col-md-3 col-lg-4 col-xl-4">
-                      <div className="mb-4">
-                        <label className="form-label">
-                          Front of your ID Card
-                        </label>
-                        <div className="fileupload" data-provides="fileupload">
-                          <span
-                            className="fileupload-preview fileupload-exists thumbnail"
-                            style={{ maxWidth: "150px", maxHeight: "120px" }}
-                          >
-                            <img
-                              src="/assets/images/default.jpg"
-                              alt="default"
-                              className="img-fluid"
-                              height="150px"
-                              width="120px"
-                            />
-                          </span>
-                          <span>
-                            <label className="btn btn-info btn-rounded btn-file btn-sm">
-                              <span className="fileupload-new">
-                                <i className="fa fa-file-image-o"></i> Select
-                                Image
-                              </span>
-                              <span className="fileupload-exists">
-                                <i className="fa fa-reply"></i> Change
-                              </span>
-                              <input
-                                className="form-control"
-                                name="id_front"
-                                type="file"
-                              />
-                            </label>
-                            <span
-                              className="btn fileupload-exists btn-default btn-rounded  btn-sm"
-                              data-dismiss="fileupload"
-                              id="remove-thumbnail"
-                            >
-                              <i className="fa fa-times"></i> Remove
-                            </span>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-12 col-sm-12 col-md-3 col-lg-4 col-xl-4">
-                      <div className="mb-4">
-                        <label className="form-label">
-                          Back of your ID Card
-                        </label>
-                        <span className="text-success">(Back Side)</span>
+                    <FileUpload id={'profilePicture'} picture={data?.profilePicture} name={'profilePicture'} label={"Profile Photo"} setFormState={setFormState} />
+                    <FileUpload id={'idFront'} picture={data?.idFront} name={'idFront'} label={"Front of ID Card"} setFormState={setFormState} />
+                    <FileUpload id={'idBack'} picture={data?.idBack} name={'idBack'} label={"Back of ID Card"} setFormState={setFormState} />
 
-                        <div className="fileupload " data-provides="fileupload">
-                          <span
-                            className="fileupload-preview fileupload-exists thumbnail"
-                            style={{ maxWidth: "150px", maxHeight: "120px" }}
-                          >
-                            <img
-                              src="/assets/images/default.jpg"
-                              alt="default"
-                              className="img-fluid"
-                              height="150px"
-                              width="120px"
-                            />
-                          </span>
-                          <span>
-                            <label className="btn btn-info btn-rounded btn-file btn-sm">
-                              <span className="fileupload-new">
-                                <i className="fa fa-file-image-o"></i> Select
-                                Image
-                              </span>
-                              <span className="fileupload-exists">
-                                <i className="fa fa-reply"></i> Change
-                              </span>
-                              <input
-                                className="form-control"
-                                name="id_back"
-                                type="file"
-                              />
-                            </label>
-                            <span
-                              className="btn fileupload-exists btn-default btn-rounded  btn-sm"
-                              data-dismiss="fileupload"
-                              id="remove-thumbnail"
-                            >
-                              <i className="fa fa-times"></i> Remove
-                            </span>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                   {/* </fieldset> */}
 
@@ -532,7 +522,7 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                  
                 </div>
                 <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center  mb-3">
-                  <button className="btn btn-success" type="submit">
+                  <button className="btn btn-success btn-sm btn-block" type="button" onClick={handleSubmit}>
                     Save
                   </button>
                 </div>
