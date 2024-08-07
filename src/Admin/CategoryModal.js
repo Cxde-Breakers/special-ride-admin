@@ -43,11 +43,11 @@ const CategoryModal = ({ data, mode, claxx, icon, title, buttonText }) => {
   const handleInputChange = (e) => {
     const { name, value, type, checked, files } = e.target;
     const newValue =
-    type === "checkbox"
-      ? checked
-      : type === "file"
-      ? files[0]
-      : value;
+      type === "checkbox"
+        ? checked
+        : type === "file"
+          ? files[0]
+          : value;
 
     setFormState((prevState) => ({
       ...prevState,
@@ -85,19 +85,19 @@ const CategoryModal = ({ data, mode, claxx, icon, title, buttonText }) => {
 
 
 
-    if(mode === 'create'){
+    if (mode === 'create') {
       axios.post(`${process.env.REACT_APP_API_URL}/categories`, formState, { headers })
         .then((response) => {
-            openNotification(
-              "topRight",
-              "success",
-              "Category created successfully",
-              "Category has been created successfully."
-            );
-    
-            setTimeout(() => {
-              window.location.href = `/admin/categories`;
-            }, 1000);
+          openNotification(
+            "topRight",
+            "success",
+            "Category created successfully",
+            "Category has been created successfully."
+          );
+
+          setTimeout(() => {
+            window.location.href = `/admin/categories`;
+          }, 1000);
         })
         .catch((error) => {
           openNotification(
@@ -114,32 +114,32 @@ const CategoryModal = ({ data, mode, claxx, icon, title, buttonText }) => {
         });
     } else {
       axios.patch(`${process.env.REACT_APP_API_URL}/categories/${data?.id}`, formState, { headers })
-      
-      .then((response) => {
+
+        .then((response) => {
           openNotification(
             "topRight",
             "success",
             "Category created successfully",
             "Category has been updated successfully."
           );
-  
+
           setTimeout(() => {
             window.location.href = `/admin/categories`;
           }, 1000);
-      })
-      .catch((error) => {
-        openNotification(
-          "topRight",
-          "error",
-          "Error",
-          `${error.response.data.message.toLowerCase().includes('duplicate') ? 'Order number already exists. Use a different order number' : 'An error occurred while creating the category.'}`
-        );
-        console.error(error);
-        setIsLoading(false);
-      })
-      .finally(() => {
-        setOpen(false);
-      });
+        })
+        .catch((error) => {
+          openNotification(
+            "topRight",
+            "error",
+            "Error",
+            `${error.response.data.message.toLowerCase().includes('duplicate') ? 'Order number already exists. Use a different order number' : 'An error occurred while creating the category.'}`
+          );
+          console.error(error);
+          setIsLoading(false);
+        })
+        .finally(() => {
+          setOpen(false);
+        });
     }
   }
 
@@ -181,9 +181,8 @@ const CategoryModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                 <td>Status</td>
                 <td>
                   <span
-                    className={`badge badge-${
-                      data?.status === "active" ? "success" : "danger"
-                    }`}
+                    className={`badge badge-${data?.status === "active" ? "success" : "danger"
+                      }`}
                   >
                     {data?.status === "active" ? "Active" : "Inactive"}
                   </span>
@@ -197,96 +196,96 @@ const CategoryModal = ({ data, mode, claxx, icon, title, buttonText }) => {
           </div>
         ) : (
           <>
-          {isLoading && (<Spin  fullscreen={true} size={'large'} />)}
-                        <div className="card-body">
-                        <form enctype="multipart/form-data">
-                          <div className="row d-flex justify-content-center">
-                            <div className="row">
-                              <div className="col-12 mb-3">
-                                <label className="form-label required" for="name">
-                                  Category Name <span className="text-danger">*</span>{" "}
-                                </label>
-                                <input
-                                  className="form-control"
-                                  name="name"
-                                  type="text"
-                                  placeholder="Enter category name "
-                                  autocomplete="off"
-                                  required
-                                  value={formState.name}
-                                  onChange={handleInputChange}
-                                />
-                              </div>
-                              <div className="col-12">
-                                <div className="form-group">
-                                  <label htmlFor="order" className="form-label">
-                                    Order Number <span className="text-danger">*</span>{" "}
-                                    <Tooltip
-                                      placement="right"
-                                      title={"If you don't want ordering set 0"}
-                                    >
-                                      <QuestionCircleOutlined />
-                                    </Tooltip>
-                                  </label>
-                                  <input
-                                    type="number"
-                                    name="order"
-                                    id="order"
-                                    placeholder="Enter order number"
-                                    required
-                                    className="form-control"
-                                    value={formState.order}
-                                    onChange={handleInputChange}
-                                  />
-                                </div>
-                              </div>
-                              <div className="col-12 mb-3">
-                                <label className="form-label required" for="password">
-                                  Status <span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  name="status"
-                                  id="status"
-                                  className="form-control"
-                                  required
-                                  value={formState.status}
-                                  onChange={handleInputChange}
-                                >
-                                  <option value="">Select status</option>
-                                  <option value="active">Active</option>
-                                  <option value="inactive">Inactive</option>
-                                </select>
-                              </div>
-                              <div className="col-12 mb-3">
-                                <label className="form-label required" for="image">
-                                  Image
-                                  <span className="text-danger">*</span>
-                                  <span className="text-warning">
-                                    (Prefer size 150 x 100)
-                                  </span>
-                                </label>
-                                <input
-                                  className="form-control"
-                                  name="image"
-                                  type="file"
-                                  onChange={handleInputChange}
-                                  required
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center  my-3">
-                            <button
-                              className="btn btn-success btn-block btn-sm"
-                              type="button"
-                              onClick={handleSubmit}
-                            >
-                              Save
-                            </button>
-                          </div>
-                        </form>
+            {isLoading && (<Spin fullscreen={true} size={'large'} />)}
+            <div className="card-body">
+              <form enctype="multipart/form-data">
+                <div className="row d-flex justify-content-center">
+                  <div className="row">
+                    <div className="col-12 mb-3">
+                      <label className="form-label required" for="name">
+                        Category Name <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input
+                        className="form-control"
+                        name="name"
+                        type="text"
+                        placeholder="Enter category name "
+                        autocomplete="off"
+                        required
+                        value={formState.name}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="col-12">
+                      <div className="form-group">
+                        <label htmlFor="order" className="form-label">
+                          Order Number <span className="text-danger">*</span>{" "}
+                          <Tooltip
+                            placement="right"
+                            title={"If you don't want ordering set 0"}
+                          >
+                            <QuestionCircleOutlined />
+                          </Tooltip>
+                        </label>
+                        <input
+                          type="number"
+                          name="order"
+                          id="order"
+                          placeholder="Enter order number"
+                          required
+                          className="form-control"
+                          value={formState.order}
+                          onChange={handleInputChange}
+                        />
                       </div>
-         
+                    </div>
+                    <div className="col-12 mb-3">
+                      <label className="form-label required" for="password">
+                        Status <span className="text-danger">*</span>
+                      </label>
+                      <select
+                        name="status"
+                        id="status"
+                        className="form-control"
+                        required
+                        value={formState.status}
+                        onChange={handleInputChange}
+                      >
+                        <option value="">Select status</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                      </select>
+                    </div>
+                    <div className="col-12 mb-3">
+                      <label className="form-label required" for="image">
+                        Image
+                        <span className="text-danger">*</span>
+                        <span className="text-warning">
+                          (Prefer size 150 x 100)
+                        </span>
+                      </label>
+                      <input
+                        className="form-control"
+                        name="image"
+                        type="file"
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center  my-3">
+                  <button
+                    className="btn btn-success btn-block btn-sm"
+                    type="button"
+                    onClick={handleSubmit}
+                  >
+                    Save
+                  </button>
+                </div>
+              </form>
+            </div>
+
 
 
           </>

@@ -15,7 +15,7 @@ const AdminModal = ({
   picture
 }) => {
   const [open, setOpen] = useState(false);
-  const [imagePreview, setImagePreview] = useState(picture ? `data:image/png;base64,${picture}`  : '/assets/images/default-user.png');
+  const [imagePreview, setImagePreview] = useState(picture ? `data:image/png;base64,${picture}` : '/assets/images/default-user.png');
   const [formState, setFormState] = useState({
     role: "admin",
     name: "",
@@ -86,14 +86,14 @@ const AdminModal = ({
 
     const body = new FormData();
     for (const key in formState) {
-    body.append(key, formState[key]);
+      body.append(key, formState[key]);
     }
 
 
-    if(mode === 'create'){
+    if (mode === 'create') {
 
       if (Object.values(formState).some(value => !value)) {
-        
+
         openNotification(
           "topRight",
           "error",
@@ -105,16 +105,16 @@ const AdminModal = ({
 
       axios.post(`${process.env.REACT_APP_API_URL}/auth/sign-up`, body, { headers })
         .then((response) => {
-            openNotification(
-              "topRight",
-              "success",
-              "Admin created successfully",
-              "Admin has been created successfully."
-            );
-    
-            setTimeout(() => {
-              window.location.href = `/admin/admins`;
-            }, 1000);
+          openNotification(
+            "topRight",
+            "success",
+            "Admin created successfully",
+            "Admin has been created successfully."
+          );
+
+          setTimeout(() => {
+            window.location.href = `/admin/admins`;
+          }, 1000);
         })
         .catch((error) => {
           openNotification(
@@ -129,38 +129,38 @@ const AdminModal = ({
         .finally(() => {
           setOpen(false);
         });
-    } 
-    
+    }
+
     else {
-      
+
       console.log(body)
 
       axios.patch(`${process.env.REACT_APP_API_URL}/admins/${data?.id}`, body, { headers })
-      .then((response) => {
+        .then((response) => {
           openNotification(
             "topRight",
             "success",
             "Admin updated successfully",
             "Admin details has been updated successfully."
           );
-  
+
           setTimeout(() => {
             window.location.href = `/admin/admins`;
           }, 1000);
-      })
-      .catch((error) => {
-        openNotification(
-          "topRight",
-          "error",
-          "Error",
-          'An error occurred while updating the admin.'
-        );
-        console.error(error);
-        setIsLoading(false);
-      })
-      .finally(() => {
-        setOpen(false);
-      });
+        })
+        .catch((error) => {
+          openNotification(
+            "topRight",
+            "error",
+            "Error",
+            'An error occurred while updating the admin.'
+          );
+          console.error(error);
+          setIsLoading(false);
+        })
+        .finally(() => {
+          setOpen(false);
+        });
     }
   }
 
@@ -195,9 +195,9 @@ const AdminModal = ({
                 <h5 className="widget-user-desc">{data?.user?.email}</h5>
               </div>
               <div className="widget-user-image">
-              <img
+                <img
                   className="img-circle elevation-2"
-                  src={`data:image/png;base64,${data?.profilePicture}`} 
+                  src={`data:image/png;base64,${data?.profilePicture}`}
                   alt="Customer"
                 />
               </div>
@@ -207,7 +207,7 @@ const AdminModal = ({
                     <div className="description-block">
                       <h5 className="description-header">Status</h5>
                       <span className="description-text">
-                      <span
+                        <span
                           className={`badge bg-${data.status === 'active' ? 'success' : 'secondary'}`}
                           style={{ minWidth: "65px" }}
                         >
@@ -249,14 +249,14 @@ const AdminModal = ({
                               <td>Country</td>
                               <td>{data?.country?.name}</td>
                             </tr>
-                           
+
 
                             <tr>
                               <td>Phone</td>
                               <td>{data?.phoneNumber}</td>
                             </tr>
 
-                           
+
                           </tbody>
                         </table>
                       </div>
@@ -328,27 +328,27 @@ const AdminModal = ({
                     </div> */}
                     {mode === 'create' && (
                       <div className="form-group row mb-3">
-                      <label className="col-sm-3 col-form-label" for="name">
-                        Email
-                        <span className="form-label-required text-danger">
-                          *
-                        </span>
-                      </label>
-                      <div className="col-sm-9">
-                        <input
-                          
-                          type="email"
-                          className="form-control "
-                          placeholder="Enter Email"
-                          name="email"
-                          onChange={handleInputChange}
-                          value={formState.email}
-                          required
-                        />
+                        <label className="col-sm-3 col-form-label" for="name">
+                          Email
+                          <span className="form-label-required text-danger">
+                            *
+                          </span>
+                        </label>
+                        <div className="col-sm-9">
+                          <input
+
+                            type="email"
+                            className="form-control "
+                            placeholder="Enter Email"
+                            name="email"
+                            onChange={handleInputChange}
+                            value={formState.email}
+                            required
+                          />
+                        </div>
                       </div>
-                    </div>
                     )}
-                    
+
                     <div className="form-group row mb-3">
                       <label className="col-sm-3 col-form-label" for="image">
                         Image
@@ -364,7 +364,7 @@ const AdminModal = ({
                             type="file"
                             className="custom-file-input"
                             id="customFile"
-                            
+
                           />
                           <label className="custom-file-label" for="customFile">
                             Choose file
@@ -381,7 +381,7 @@ const AdminModal = ({
                       </label>
                       <div className="col-sm-9">
                         <input
-                          
+
                           type="text"
                           className="form-control "
                           placeholder="Enter Phone Number"
@@ -397,27 +397,27 @@ const AdminModal = ({
                     </div>
                     {mode === 'create' && (
                       <div className="form-group row mb-3">
-                      <label className="col-sm-3 col-form-label" for="password">
-                        Password
-                        <span className="form-label-required text-danger">
-                          *
-                        </span>
-                      </label>
-                      <div className="col-sm-9">
-                        <input
-                          
-                          type="password"
-                          className="form-control "
-                          placeholder="Enter Password"
-                          name="password"
-                          onChange={handleInputChange}
-                          // value={formState.firstName}
-                          required
-                        />
+                        <label className="col-sm-3 col-form-label" for="password">
+                          Password
+                          <span className="form-label-required text-danger">
+                            *
+                          </span>
+                        </label>
+                        <div className="col-sm-9">
+                          <input
+
+                            type="password"
+                            className="form-control "
+                            placeholder="Enter Password"
+                            name="password"
+                            onChange={handleInputChange}
+                            // value={formState.firstName}
+                            required
+                          />
+                        </div>
                       </div>
-                    </div>
                     )}
-                    
+
                     {/* <div className="form-group row mb-3">
                       <label className="col-sm-3 col-form-label" for="roles">
                         Assign Roles
@@ -464,7 +464,7 @@ const AdminModal = ({
                         </span>
                       </label>
                       <div className="col-sm-9">
-                      <select
+                        <select
                           name="country"
                           onChange={handleInputChange}
                           className="select2 form-control"
@@ -473,17 +473,17 @@ const AdminModal = ({
                           <option value="">Select Country</option>
 
                           {countries?.map((country, index) => {
-                        return (
-                          <option 
-                            key={index} 
-                            value={country.id} 
-                            selected={country.id === formState?.country }
-                            // selected={category.id === formState?.category?.name}
-                          >
-                            {country.name}
-                          </option>
-                        );
-                      })}
+                            return (
+                              <option
+                                key={index}
+                                value={country.id}
+                                selected={country.id === formState?.country}
+                              // selected={category.id === formState?.category?.name}
+                              >
+                                {country.name}
+                              </option>
+                            );
+                          })}
                         </select>
                       </div>
                     </div>

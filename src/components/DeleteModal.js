@@ -19,10 +19,10 @@ const DeleteModal = ({ title, content, claxx, noicon, setIsLoading, id, redirect
       'Content-Type': 'application/json',
     };
 
-  setIsLoading(true);
+    setIsLoading(true);
 
     axios.delete(`${process.env.REACT_APP_API_URL}/${deleteUrl}/${id}`, { headers })
-    .then((response) => {
+      .then((response) => {
         openNotification(
           "topRight",
           "success",
@@ -33,20 +33,20 @@ const DeleteModal = ({ title, content, claxx, noicon, setIsLoading, id, redirect
         setTimeout(() => {
           window.location.href = `/admin/${redirectUrl}`;
         }, 1000);
-    })
-    .catch((error) => {
-      openNotification(
-        "topRight",
-        "error",
-        "Error",
-        "An error occurred while creating the faq."
-      );
-      console.error(error);
-      setIsLoading(false);
-    })
-    .finally(() => {
-      setOpen(false);
-    });
+      })
+      .catch((error) => {
+        openNotification(
+          "topRight",
+          "error",
+          "Error",
+          "An error occurred while creating the faq."
+        );
+        console.error(error);
+        setIsLoading(false);
+      })
+      .finally(() => {
+        setOpen(false);
+      });
   };
 
   const handleCancel = () => {
@@ -73,21 +73,21 @@ const DeleteModal = ({ title, content, claxx, noicon, setIsLoading, id, redirect
       <Modal
         open={open}
         // mask={open}
-        title={<div style={titleStyle}>{title}<hr/></div>}
+        title={<div style={titleStyle}>{title}<hr /></div>}
         onOk={handleOk}
         onCancel={handleCancel}
         style={{ zIndex: "1", left: "10%" }}
         footer={[
-          <Button onClick={handleCancel} style={{ float: "left"}}>
+          <Button onClick={handleCancel} style={{ float: "left" }}>
             Cancel
           </Button>,
           <Button onClick={handleOk}>
             OK
           </Button>,
         ]}
-        // style={modalStyle}
+      // style={modalStyle}
       >
-        <div style={contentStyle}>{content}<hr/></div>
+        <div style={contentStyle}>{content}<hr /></div>
       </Modal>
     </>
   );

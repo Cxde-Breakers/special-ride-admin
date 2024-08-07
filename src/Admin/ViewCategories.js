@@ -191,7 +191,7 @@ const ViewCategories = () => {
                                   <tr key={index}>
                                     <td>{index + 1}</td>
                                     <td className="text-center">
-                                    <img
+                                      <img
                                         src={`data:image/png;base64,${category.image}`}
                                         className="border rounded-circle"
                                         alt="default"
@@ -201,16 +201,16 @@ const ViewCategories = () => {
                                     <td>{category.name}</td>
                                     <td>{category.order}</td>
                                     <td>
-                                    {category.status === 'active' ? (
-                                    <span className="badge badge-success">
-                                        Active
-                                      </span>
-                                    ) : (
-                                    <span className="badge badge-secondary">
-                                        Inactive
-                                      </span>
-                                    )}
-                                      
+                                      {category.status === 'active' ? (
+                                        <span className="badge badge-success">
+                                          Active
+                                        </span>
+                                      ) : (
+                                        <span className="badge badge-secondary">
+                                          Inactive
+                                        </span>
+                                      )}
+
                                     </td>
 
                                     <td>
@@ -224,7 +224,7 @@ const ViewCategories = () => {
                                       />
 
                                       <StatusModal
-                                        title={category?.status === 'active' ? "Disable Category" :"Enable Category"}
+                                        title={category?.status === 'active' ? "Disable Category" : "Enable Category"}
                                         content={
                                           `Are you sure you want to ${category?.status === 'active' ? 'disable' : 'enable'} this item?`
                                         }
@@ -250,9 +250,8 @@ const ViewCategories = () => {
                         <div className="px-3 mt-2 row">
                           <div className="col-6">
                             <p>
-                              {`Showing ${
-                                startIndex + 1
-                              } to ${endIndex} of ${totalItems} entries`}
+                              {`Showing ${startIndex + 1
+                                } to ${endIndex} of ${totalItems} entries`}
                             </p>
                           </div>
                           <div className="col-6">
@@ -262,9 +261,8 @@ const ViewCategories = () => {
                             >
                               <ul className="pagination pagination-sm justify-content-end justify-content-md-end">
                                 <li
-                                  className={`page-item ${
-                                    currentPage === 1 ? "disabled" : ""
-                                  }`}
+                                  className={`page-item ${currentPage === 1 ? "disabled" : ""
+                                    }`}
                                   onClick={() => goToPage(currentPage - 1)}
                                 >
                                   <button
@@ -278,9 +276,8 @@ const ViewCategories = () => {
                                 {[...Array(totalPages)].map((_, index) => (
                                   <li
                                     key={index}
-                                    className={`page-item ${
-                                      index + 1 === currentPage ? "active" : ""
-                                    }`}
+                                    className={`page-item ${index + 1 === currentPage ? "active" : ""
+                                      }`}
                                   >
                                     <button
                                       className="page-link"
@@ -292,9 +289,8 @@ const ViewCategories = () => {
                                 ))}
 
                                 <li
-                                  className={`page-item ${
-                                    currentPage === totalPages ? "disabled" : ""
-                                  }`}
+                                  className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                                    }`}
                                   onClick={() => goToPage(currentPage + 1)}
                                 >
                                   <button

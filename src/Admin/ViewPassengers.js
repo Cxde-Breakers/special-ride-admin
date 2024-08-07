@@ -39,16 +39,16 @@ const ViewPassengers = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/passengers`, { headers })
       .then((response) => {
-          // console.log(response.data.data);
+        // console.log(response.data.data);
         const sortedData = response.data.data.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         setPassengers(sortedData);
-          // setIsLoading(false);
+        // setIsLoading(false);
       })
       .catch((error) => {
         console.error(error);
-          // setIsLoading(false);
+        // setIsLoading(false);
       });
 
     axios
@@ -63,7 +63,7 @@ const ViewPassengers = () => {
         setIsLoading(false);
       });
 
-      setIsLoading(false);
+    setIsLoading(false);
   }, [navigate]);
 
   const handleSearchChange = (e) => {
@@ -221,7 +221,7 @@ const ViewPassengers = () => {
                                     <td>
                                       <div className="float-left p-2">
                                         <img
-                                          src={`data:image/png;base64,${passenger.profilePicture}`} 
+                                          src={`data:image/png;base64,${passenger.profilePicture}`}
                                           className="border rounded-circle"
                                           alt="default"
                                           width="50"
@@ -241,17 +241,17 @@ const ViewPassengers = () => {
                                     <td>08 Aug, 2023</td>
                                     <td>{passenger?.country.name}</td>
                                     <td className="text-muted">
-                                            {passenger.status === 'active' ? (
-                                                <span className="badge badge-success">
-                                                    Active
-                                                </span>
-                                                ) : (
-                                                <span className="badge badge-secondary">
-                                                    Inactive
-                                                </span>
-                                                )}
-                                            </td>
-                                    
+                                      {passenger.status === 'active' ? (
+                                        <span className="badge badge-success">
+                                          Active
+                                        </span>
+                                      ) : (
+                                        <span className="badge badge-secondary">
+                                          Inactive
+                                        </span>
+                                      )}
+                                    </td>
+
 
                                     <td>
                                       <PassengerModal
@@ -280,8 +280,8 @@ const ViewPassengers = () => {
                                         claxx={"btn btn-sm btn-danger mr-3"}
                                       /> */}
 
-<StatusModal
-                                        title={passenger?.status === 'active' ? "Disable Passenger" :"Enable Passenger"}
+                                      <StatusModal
+                                        title={passenger?.status === 'active' ? "Disable Passenger" : "Enable Passenger"}
                                         content={
                                           `Are you sure you want to ${passenger?.status === 'active' ? 'disable' : 'enable'} this passenger?`
                                         }
@@ -300,9 +300,8 @@ const ViewPassengers = () => {
                         <div className="px-3 mt-2 row">
                           <div className="col-6">
                             <p>
-                              {`Showing ${
-                                startIndex + 1
-                              } to ${endIndex} of ${totalItems} entries`}
+                              {`Showing ${startIndex + 1
+                                } to ${endIndex} of ${totalItems} entries`}
                             </p>
                           </div>
                           <div className="col-6">
@@ -312,9 +311,8 @@ const ViewPassengers = () => {
                             >
                               <ul className="pagination pagination-sm justify-content-end justify-content-md-end">
                                 <li
-                                  className={`page-item ${
-                                    currentPage === 1 ? "disabled" : ""
-                                  }`}
+                                  className={`page-item ${currentPage === 1 ? "disabled" : ""
+                                    }`}
                                   onClick={() => goToPage(currentPage - 1)}
                                 >
                                   <button
@@ -328,9 +326,8 @@ const ViewPassengers = () => {
                                 {[...Array(totalPages)].map((_, index) => (
                                   <li
                                     key={index}
-                                    className={`page-item ${
-                                      index + 1 === currentPage ? "active" : ""
-                                    }`}
+                                    className={`page-item ${index + 1 === currentPage ? "active" : ""
+                                      }`}
                                   >
                                     <button
                                       className="page-link"
@@ -342,9 +339,8 @@ const ViewPassengers = () => {
                                 ))}
 
                                 <li
-                                  className={`page-item ${
-                                    currentPage === totalPages ? "disabled" : ""
-                                  }`}
+                                  className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                                    }`}
                                   onClick={() => goToPage(currentPage + 1)}
                                 >
                                   <button

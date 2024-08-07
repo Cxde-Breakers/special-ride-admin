@@ -16,17 +16,17 @@ const StatusModal = ({ title, content, claxx, noicon, setIsLoading, id, redirect
     const token = window.sessionStorage.getItem("token");
     const headers = {
       Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
+      'Content-Type': 'multipart/form-data',
     };
 
     const body = {
       status: status === 'active' ? 'inactive' : 'active'
     }
 
-  setIsLoading(true);
+    setIsLoading(true);
 
     axios.patch(`${process.env.REACT_APP_API_URL}/${updateUrl}/${id}`, body, { headers })
-    .then((response) => {
+      .then((response) => {
         openNotification(
           "topRight",
           "success",
@@ -37,21 +37,21 @@ const StatusModal = ({ title, content, claxx, noicon, setIsLoading, id, redirect
         setTimeout(() => {
           window.location.href = `/admin/${redirectUrl}`;
         }, 1000);
-    })
-    .catch((error) => {
-      openNotification(
-        "topRight",
-        "error",
-        "Error",
-        'An error occurred while updating details.'
-      );
-      console.error(error);
-      setIsLoading(false);
-    })
-    .finally(() => {
-      setOpen(false);
-    });
-    };
+      })
+      .catch((error) => {
+        openNotification(
+          "topRight",
+          "error",
+          "Error",
+          'An error occurred while updating details.'
+        );
+        console.error(error);
+        setIsLoading(false);
+      })
+      .finally(() => {
+        setOpen(false);
+      });
+  };
 
   const handleCancel = () => {
     setOpen(false);
@@ -77,21 +77,21 @@ const StatusModal = ({ title, content, claxx, noicon, setIsLoading, id, redirect
       <Modal
         open={open}
         // mask={open}
-        title={<div style={titleStyle}>{title}<hr/></div>}
+        title={<div style={titleStyle}>{title}<hr /></div>}
         onOk={handleOk}
         onCancel={handleCancel}
         style={{ zIndex: "1", left: "10%" }}
         footer={[
-          <Button onClick={handleCancel} style={{ float: "left"}}>
+          <Button onClick={handleCancel} style={{ float: "left" }}>
             Cancel
           </Button>,
           <Button onClick={handleOk}>
             OK
           </Button>,
         ]}
-        // style={modalStyle}
+      // style={modalStyle}
       >
-        <div style={contentStyle}>{content}<hr/></div>
+        <div style={contentStyle}>{content}<hr /></div>
       </Modal>
     </>
   );

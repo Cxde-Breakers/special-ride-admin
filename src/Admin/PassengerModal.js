@@ -54,9 +54,9 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoadi
   const handleInputChange = (e) => {
     const { name, value, type, files } = e.target;
     const newValue =
-    type === "file"
-      ? files[0]
-      : value;
+      type === "file"
+        ? files[0]
+        : value;
 
     setFormState((prevState) => ({
       ...prevState,
@@ -77,14 +77,14 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoadi
 
     const body = new FormData();
     for (const key in formState) {
-    body.append(key, formState[key]);
+      body.append(key, formState[key]);
     }
 
 
-    if(mode === 'create'){
+    if (mode === 'create') {
 
       if (Object.values(formState).some(value => !value)) {
-        
+
         openNotification(
           "topRight",
           "error",
@@ -96,16 +96,16 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoadi
 
       axios.post(`${process.env.REACT_APP_API_URL}/auth/sign-up`, body, { headers })
         .then((response) => {
-            openNotification(
-              "topRight",
-              "success",
-              "Passenger created successfully",
-              "Passenger has been created successfully."
-            );
-    
-            setTimeout(() => {
-              window.location.href = `/admin/passengers`;
-            }, 1000);
+          openNotification(
+            "topRight",
+            "success",
+            "Passenger created successfully",
+            "Passenger has been created successfully."
+          );
+
+          setTimeout(() => {
+            window.location.href = `/admin/passengers`;
+          }, 1000);
         })
         .catch((error) => {
           openNotification(
@@ -120,38 +120,38 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoadi
         .finally(() => {
           setOpen(false);
         });
-    } 
-    
+    }
+
     else {
-      
+
       console.log(body)
 
       axios.patch(`${process.env.REACT_APP_API_URL}/passengers/${data?.id}`, body, { headers })
-      .then((response) => {
+        .then((response) => {
           openNotification(
             "topRight",
             "success",
             "Passenger updated successfully",
             "Passenger details has been updated successfully."
           );
-  
+
           setTimeout(() => {
             window.location.href = `/admin/passengers`;
           }, 1000);
-      })
-      .catch((error) => {
-        openNotification(
-          "topRight",
-          "error",
-          "Error",
-          'An error occurred while updating the passenger.'
-        );
-        console.error(error);
-        setIsLoading(false);
-      })
-      .finally(() => {
-        setOpen(false);
-      });
+        })
+        .catch((error) => {
+          openNotification(
+            "topRight",
+            "error",
+            "Error",
+            'An error occurred while updating the passenger.'
+          );
+          console.error(error);
+          setIsLoading(false);
+        })
+        .finally(() => {
+          setOpen(false);
+        });
     }
   }
 
@@ -171,8 +171,8 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoadi
         style={{ zIndex: "1", left: "10%" }}
         footer={[]}
       >
-  
-          <div className="card-header">
+
+        <div className="card-header">
           <div className="row align-items-center">
             <div className="col-6">
               <h3 className="card-title">{title} Passenger</h3>
@@ -189,7 +189,7 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoadi
               <div className="widget-user-image">
                 <img
                   className="img-circle elevation-2"
-                  src={`data:image/png;base64,${data?.profilePicture}`} 
+                  src={`data:image/png;base64,${data?.profilePicture}`}
                   alt="Customer"
                 />
               </div>
@@ -246,7 +246,7 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoadi
                               <td>Address</td>
                               <td>{data?.address}</td>
                             </tr>
-                           
+
                             <tr>
                               <td>Country</td>
                               <td>{data?.country?.name}</td>
@@ -298,7 +298,7 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoadi
                               </td>
                             </tr>
 
-                            
+
                           </tbody>
                         </table>
                       </div>
@@ -353,8 +353,8 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoadi
             <div className="card-body">
               <form enctype="multipart/form-data">
                 <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                  
-                <div className="row">
+
+                  <div className="row">
                     <div className={mode === 'create' ? "col-md-4" : "col-md-6"}>
                       <label className="form-label required" for="name">
                         First Name <span className="text-danger">*</span>{" "}
@@ -385,42 +385,42 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoadi
                     </div>
                     {mode === 'create' && (
                       <div className="col-md-4">
-                      <label className="form-label required" for="password">
-                        Email Address<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control"
-                        name="email"
-                        onChange={handleInputChange}
-                        type="email"
-                        placeholder="Enter Email"
-                        
-                        required
-                      />
-                    </div>
+                        <label className="form-label required" for="password">
+                          Email Address<span className="text-danger">*</span>
+                        </label>
+                        <input
+                          className="form-control"
+                          name="email"
+                          onChange={handleInputChange}
+                          type="email"
+                          placeholder="Enter Email"
+
+                          required
+                        />
+                      </div>
                     )}
-                    
+
                   </div>
                   <div className="row">
                     {mode === 'create' && (
                       <div className="col-md-4">
-                      <div className="mt-4 mb-4">
-                        <label className="form-label required">
-                          Password <span className="text-danger">*</span>
-                        </label>
-                        <input
-                          className="form-control"
-                          name="password"
-                          onChange={handleInputChange}
-                          type="password"
-                          placeholder="Enter new password"
-                          autocomplete="new-password"
-                          required
-                        />
+                        <div className="mt-4 mb-4">
+                          <label className="form-label required">
+                            Password <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            className="form-control"
+                            name="password"
+                            onChange={handleInputChange}
+                            type="password"
+                            placeholder="Enter new password"
+                            autocomplete="new-password"
+                            required
+                          />
+                        </div>
                       </div>
-                    </div>
                     )}
-                    
+
                     <div className={mode === 'create' ? "col-md-4" : "col-md-6"}>
                       <div className="mt-4 mb-4">
                         <label className="form-label required">
@@ -456,9 +456,9 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoadi
                     <div className="col-md-4">
                       <div className="mt-4 mb-4">
                         <label className="form-label">Gender</label>
-                        <select className="form-control" 
-                        name="gender"
-                        onChange={handleInputChange}>
+                        <select className="form-control"
+                          name="gender"
+                          onChange={handleInputChange}>
                           <option value="">Select Gender</option>
 
                           <option value="male" selected={formState.gender === 'male'}>Male</option>
@@ -494,17 +494,17 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoadi
                           <option value="">Select Country</option>
 
                           {countries?.map((country, index) => {
-                        return (
-                          <option 
-                            key={index} 
-                            value={country.id} 
-                            selected={country.id === formState?.country }
-                            // selected={category.id === formState?.category?.name}
-                          >
-                            {country.name}
-                          </option>
-                        );
-                      })}
+                            return (
+                              <option
+                                key={index}
+                                value={country.id}
+                                selected={country.id === formState?.country}
+                              // selected={category.id === formState?.category?.name}
+                              >
+                                {country.name}
+                              </option>
+                            );
+                          })}
                         </select>
                       </div>
                     </div>
@@ -519,7 +519,7 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoadi
 
                   <hr />
 
-                 
+
                 </div>
                 <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center  mb-3">
                   <button className="btn btn-success btn-sm btn-block" type="button" onClick={handleSubmit}>
@@ -531,7 +531,7 @@ const PassengerModal = ({ data, mode, claxx, icon, title, buttonText, setIsLoadi
           </>
         )}
 
-        
+
 
       </Modal>
     </>

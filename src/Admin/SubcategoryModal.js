@@ -33,24 +33,24 @@ const SubcategoryModal = ({ data, mode, claxx, icon, title, buttonText }) => {
   const showModal = () => {
 
     const token = window.sessionStorage.getItem("token");
-    
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      };
 
-        axios
-        .get(`${process.env.REACT_APP_API_URL}/categories`, { headers })
-        .then((response) => {
-            // console.log(response.data.data);
-            const sortedCategories = response.data.data.sort(
-            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-            );
-            setCategories(sortedCategories);
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/categories`, { headers })
+      .then((response) => {
+        // console.log(response.data.data);
+        const sortedCategories = response.data.data.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        setCategories(sortedCategories);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
 
     setOpen(true);
@@ -69,11 +69,11 @@ const SubcategoryModal = ({ data, mode, claxx, icon, title, buttonText }) => {
   const handleInputChange = (e) => {
     const { name, value, type, checked, files } = e.target;
     const newValue =
-    type === "checkbox"
-      ? checked
-      : type === "file"
-      ? files[0]
-      : value;
+      type === "checkbox"
+        ? checked
+        : type === "file"
+          ? files[0]
+          : value;
 
     setFormState((prevState) => ({
       ...prevState,
@@ -108,19 +108,19 @@ const SubcategoryModal = ({ data, mode, claxx, icon, title, buttonText }) => {
 
 
 
-    if(mode === 'create'){
+    if (mode === 'create') {
       axios.post(`${process.env.REACT_APP_API_URL}/subcategories`, formState, { headers })
         .then((response) => {
-            openNotification(
-              "topRight",
-              "success",
-              "Subcategory created successfully",
-              "Subcategory has been created successfully."
-            );
-    
-            setTimeout(() => {
-              window.location.href = `/admin/subcategories`;
-            }, 1000);
+          openNotification(
+            "topRight",
+            "success",
+            "Subcategory created successfully",
+            "Subcategory has been created successfully."
+          );
+
+          setTimeout(() => {
+            window.location.href = `/admin/subcategories`;
+          }, 1000);
         })
         .catch((error) => {
           openNotification(
@@ -137,31 +137,31 @@ const SubcategoryModal = ({ data, mode, claxx, icon, title, buttonText }) => {
         });
     } else {
       axios.patch(`${process.env.REACT_APP_API_URL}/subcategories/${data?.id}`, formState, { headers })
-      .then((response) => {
+        .then((response) => {
           openNotification(
             "topRight",
             "success",
             "Category created successfully",
             "Category has been updated successfully."
           );
-  
+
           setTimeout(() => {
             window.location.href = `/admin/subcategories`;
           }, 1000);
-      })
-      .catch((error) => {
-        openNotification(
-          "topRight",
-          "error",
-          "Error",
-          `${error.response.data.message.toLowerCase().includes('duplicate') ? 'Order number already exists. Use a different order number' : 'An error occurred while creating the category.'}`
-        );
-        console.error(error);
-        setIsLoading(false);
-      })
-      .finally(() => {
-        setOpen(false);
-      });
+        })
+        .catch((error) => {
+          openNotification(
+            "topRight",
+            "error",
+            "Error",
+            `${error.response.data.message.toLowerCase().includes('duplicate') ? 'Order number already exists. Use a different order number' : 'An error occurred while creating the category.'}`
+          );
+          console.error(error);
+          setIsLoading(false);
+        })
+        .finally(() => {
+          setOpen(false);
+        });
     }
   }
 
@@ -220,7 +220,7 @@ const SubcategoryModal = ({ data, mode, claxx, icon, title, buttonText }) => {
           ''
         ) : (
           <>
-          {isLoading && (<Spin  fullscreen={true} size={'large'} />)}
+            {isLoading && (<Spin fullscreen={true} size={'large'} />)}
             <div className="card-body">
               <form enctype="multipart/form-data">
                 <div className="row d-flex justify-content-center">
@@ -254,18 +254,18 @@ const SubcategoryModal = ({ data, mode, claxx, icon, title, buttonText }) => {
                       >
                         <option value="">Select One</option>
                         {categories?.map((category, index) => {
-                        return (
-                          <option 
-                            key={index} 
-                            value={category.id} 
-                            selected={category.id === formState?.category?.name}
-                          >
-                            {category.name}
-                          </option>
-                        );
-                      })}
+                          return (
+                            <option
+                              key={index}
+                              value={category.id}
+                              selected={category.id === formState?.category?.name}
+                            >
+                              {category.name}
+                            </option>
+                          );
+                        })}
 
-                        
+
                       </select>
                     </div>
                     <div className="col-12">
@@ -322,7 +322,7 @@ const SubcategoryModal = ({ data, mode, claxx, icon, title, buttonText }) => {
               </form>
             </div>
 
-            
+
           </>
         )}
       </Modal>
